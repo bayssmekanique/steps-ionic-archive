@@ -352,37 +352,37 @@ func main() {
 
 	{
 		// platform rm
+		cmdArgs := []string{"ionic"}
+		if ionicMajorVersion > 2 {
+			cmdArgs = append(cmdArgs, "cordova")
+		}
+
+		cmdArgs = append(cmdArgs, "platform", "rm")
+
 		for _, platform := range platforms {
-			cmdArgs := []string{"ionic"}
-			if ionicMajorVersion > 2 {
-				cmdArgs = append(cmdArgs, "cordova")
-			}
-
-			cmdArgs = append(cmdArgs, "platform", "rm")
-
 			cmdArgs = append(cmdArgs, platform)
+		}
 
-			cmd := command.New(cmdArgs[0], cmdArgs[1:]...)
-			cmd.SetStdout(os.Stdout).SetStderr(os.Stderr).SetStdin(strings.NewReader("y"))
+		cmd := command.New(cmdArgs[0], cmdArgs[1:]...)
+		cmd.SetStdout(os.Stdout).SetStderr(os.Stderr).SetStdin(strings.NewReader("y"))
 
-			log.Donef("$ %s", cmd.PrintableCommandArgs())
+		log.Donef("$ %s", cmd.PrintableCommandArgs())
 
-			if err := cmd.Run(); err != nil {
-				fail("command failed, error: %s", err)
-			}
+		if err := cmd.Run(); err != nil {
+			fail("command failed, error: %s", err)
 		}
 	}
 
 	{
 		// platform add
+		cmdArgs := []string{"ionic"}
+		if ionicMajorVersion > 2 {
+			cmdArgs = append(cmdArgs, "cordova")
+		}
+
+		cmdArgs = append(cmdArgs, "platform", "add")
+
 		for _, platform := range platforms {
-			cmdArgs := []string{"ionic"}
-			if ionicMajorVersion > 2 {
-				cmdArgs = append(cmdArgs, "cordova")
-			}
-
-			cmdArgs = append(cmdArgs, "platform", "add")
-
 			platformVersion := platform
 
 			pv := getField( configs, "Cordova"+strings.Title(platform) +"Version")
@@ -391,18 +391,18 @@ func main() {
 			} else if pv != "" {
 				platformVersion = platform+"@"+pv
 			}
+		}
 
-			log.Donef("$ %s", platformVersion)
-			cmdArgs = append(cmdArgs, platformVersion)
+		log.Donef("$ %s", platformVersion)
+		cmdArgs = append(cmdArgs, platformVersion)
 
-			cmd := command.New(cmdArgs[0], cmdArgs[1:]...)
-			cmd.SetStdout(os.Stdout).SetStderr(os.Stderr).SetStdin(strings.NewReader("y"))
+		cmd := command.New(cmdArgs[0], cmdArgs[1:]...)
+		cmd.SetStdout(os.Stdout).SetStderr(os.Stderr).SetStdin(strings.NewReader("y"))
 
-			log.Donef("$ %s", cmd.PrintableCommandArgs())
+		log.Donef("$ %s", cmd.PrintableCommandArgs())
 
-			if err := cmd.Run(); err != nil {
-				fail("command failed, error: %s", err)
-			}
+		if err := cmd.Run(); err != nil {
+			fail("command failed, error: %s", err)
 		}
 	}
 
@@ -417,40 +417,41 @@ func main() {
 			options = opts
 		}
 
-		for _, platform := range platforms {
-			cmdArgs := []string{"ionic"}
-			if ionicMajorVersion > 2 {
-				cmdArgs = append(cmdArgs, "cordova")
-			}
-
-			cmdArgs = append(cmdArgs, "build")
-
-			if configs.Configuration != "" {
-				cmdArgs = append(cmdArgs, "--"+configs.Configuration)
-			}
-
-			if configs.Target != "" {
-				cmdArgs = append(cmdArgs, "--"+configs.Target)
-			}
-
-			cmdArgs = append(cmdArgs, platform)
-
-			if configs.BuildConfig != "" {
-				cmdArgs = append(cmdArgs, "--buildConfig", configs.BuildConfig)
-			}
-
-			cmdArgs = append(cmdArgs, options...)
-			cmdArgs = append(cmdArgs)
-
-			cmd := command.New(cmdArgs[0], cmdArgs[1:]...)
-			cmd.SetStdout(os.Stdout).SetStderr(os.Stderr).SetStdin(strings.NewReader("y"))
-
-			log.Donef("$ %s", cmd.PrintableCommandArgs())
-
-			if err := cmd.Run(); err != nil {
-				fail("command failed, error: %s", err)
-			}
+		cmdArgs := []string{"ionic"}
+		if ionicMajorVersion > 2 {
+			cmdArgs = append(cmdArgs, "cordova")
 		}
+
+		cmdArgs = append(cmdArgs, "build")
+
+		if configs.Configuration != "" {
+			cmdArgs = append(cmdArgs, "--"+configs.Configuration)
+		}
+
+		if configs.Target != "" {
+			cmdArgs = append(cmdArgs, "--"+configs.Target)
+		}
+
+		for _, platform := range platforms {
+			cmdArgs = append(cmdArgs, platform)
+		}
+
+		if configs.BuildConfig != "" {
+			cmdArgs = append(cmdArgs, "--buildConfig", configs.BuildConfig)
+		}
+
+		cmdArgs = append(cmdArgs, options...)
+		cmdArgs = append(cmdArgs)
+
+		cmd := command.New(cmdArgs[0], cmdArgs[1:]...)
+		cmd.SetStdout(os.Stdout).SetStderr(os.Stderr).SetStdin(strings.NewReader("y"))
+
+		log.Donef("$ %s", cmd.PrintableCommandArgs())
+
+		if err := cmd.Run(); err != nil {
+			fail("command failed, error: %s", err)
+		}
+		
 	}
 
 	// collect outputs
