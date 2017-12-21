@@ -350,28 +350,28 @@ func main() {
 	fmt.Println()
 	log.Infof("Building project")
 
-	{
-		// platform rm
-		cmdArgs := []string{"ionic"}
-		if ionicMajorVersion > 2 {
-			cmdArgs = append(cmdArgs, "cordova")
-		}
+	// {
+	// 	// platform rm
+	// 	cmdArgs := []string{"ionic"}
+	// 	if ionicMajorVersion > 2 {
+	// 		cmdArgs = append(cmdArgs, "cordova")
+	// 	}
 
-		cmdArgs = append(cmdArgs, "platform", "rm")
+	// 	cmdArgs = append(cmdArgs, "platform", "rm")
 
-		for _, platform := range platforms {
-			cmdArgs = append(cmdArgs, platform)
-		}
+	// 	for _, platform := range platforms {
+	// 		cmdArgs = append(cmdArgs, platform)
+	// 	}
 
-		cmd := command.New(cmdArgs[0], cmdArgs[1:]...)
-		cmd.SetStdout(os.Stdout).SetStderr(os.Stderr).SetStdin(strings.NewReader("y"))
+	// 	cmd := command.New(cmdArgs[0], cmdArgs[1:]...)
+	// 	cmd.SetStdout(os.Stdout).SetStderr(os.Stderr).SetStdin(strings.NewReader("y"))
 
-		log.Donef("$ %s", cmd.PrintableCommandArgs())
+	// 	log.Donef("$ %s", cmd.PrintableCommandArgs())
 
-		if err := cmd.Run(); err != nil {
-			fail("command failed, error: %s", err)
-		}
-	}
+	// 	if err := cmd.Run(); err != nil {
+	// 		fail("command failed, error: %s", err)
+	// 	}
+	// }
 
 	{
 		// platform add
